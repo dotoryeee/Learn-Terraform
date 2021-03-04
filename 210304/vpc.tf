@@ -24,3 +24,30 @@ resource "aws_subnet" "private01" {
                 Name = "terra-private-01-subnet"
         }
 }
+
+resource "aws_internet_gateway" "igw" {
+	vpc_id = aws_vpc.terra-test.id
+	
+	tags = {
+		Name = "terra-IGW"
+	}
+}
+
+resource "aws_eip" "terraEIP" {
+	vpc = true
+
+	lifecycle {
+		create_before_destroy = true
+	}
+}
+
+resource "aws_nat_gateway" "nat" {
+	allocation_id = aws_eip.terraEIP.id
+
+	subnet_id = aws_subnet.private01.id
+
+	tags = {
+		Name = "terra_NAT"
+	}
+}
+
