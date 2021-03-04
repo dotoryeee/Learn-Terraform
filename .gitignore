@@ -1,1 +1,3 @@
 vpc/.terraform
+s3/.terraform
+iam/.terraform
